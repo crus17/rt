@@ -17,9 +17,6 @@ if (Auth::user()->dashboard_style == "light") {
         <div class="main-panel bg-{{$bg}}">
             <div class="content bg-{{$bg}}">
                 <div class="page-inner">
-                    @if ($settings->translate_page !== "off")
-                        <div id="google_translate_element"></div>
-                    @endif
                     <div class="mt-2 mb-4">
                         <h2 class="text-{{$text}} pb-2">Welcome, {{ Auth::user()->name }}!</h2>
 
@@ -113,11 +110,11 @@ if (Auth::user()->dashboard_style == "light") {
                                             <div class="numbers">
                                                 <p class="card-category">Deposited</p>
                                                 @foreach($deposited as $deposited)
-                                                @if(!empty($deposited->count))
-                                                <h4 class="card-title text-{{$text}}">{{$settings->currency}}{{ number_format($deposited->count, 2, '.', ',')}}</h4>
-                                                @else
-                                                <h4 class="card-title text-{{$text}}">{{$settings->currency}}{{ number_format($deposited->count, 2, '.', ',')}}</h4>
-                                                @endif
+                                                    @if(!empty($deposited->count))
+                                                        <h4 class="card-title text-{{$text}}">{{$settings->currency}}{{ number_format($deposited->count, 2, '.', ',')}}</h4>
+                                                    @else
+                                                        <h4 class="card-title text-{{$text}}">{{$settings->currency}} {{ number_format($total_bonus->bonus, 2, '.', ',')}}</h4>
+                                                    @endif
                                                 @endforeach
                                             </div>
                                         </div>
@@ -131,7 +128,7 @@ if (Auth::user()->dashboard_style == "light") {
                                     <div class="row">
                                         <div class="col-5">
                                             <div class="icon-big text-center">
-                                                <i class="fa fa-chart-line text-success"></i>
+                                                <i class="flaticon-coins text-success"></i>
                                             </div>
                                         </div>
                                         <div class="col-7 col-stats">
@@ -144,7 +141,7 @@ if (Auth::user()->dashboard_style == "light") {
                                 </div>
                             </div>
                         </div>
-                        <!--<div class="col-sm-6 col-md-3">
+                        <div class="col-sm-6 col-md-3">
                             <div class="card card-stats card-round bg-{{$bg}}">
                                 <div class="card-body">
                                     <div class="row">
@@ -162,7 +159,7 @@ if (Auth::user()->dashboard_style == "light") {
                                     </div>
                                 </div>
                             </div>
-                        </div>-->
+                        </div>
                         <div class="col-sm-6 col-md-3">
                             <div class="card card-stats card-round bg-{{$bg}}">
                                 <div class="card-body">
@@ -208,7 +205,7 @@ if (Auth::user()->dashboard_style == "light") {
                                     <div class="row">
                                         <div class="col-5">
                                             <div class="icon-big text-center">
-                                                <i class="fa fa-briefcase text-danger"></i>
+                                                <i class="fa fa-envelope text-danger"></i>
                                             </div>
                                         </div>
                                         <div class="col-7 col-stats">
@@ -231,7 +228,7 @@ if (Auth::user()->dashboard_style == "light") {
                                     <div class="row">
                                         <div class="col-5">
                                             <div class="icon-big text-center">
-                                                <i class="fa fa-hourglass-start text-primary"></i>
+                                                <i class="fa fa-envelope-open text-primary"></i>
                                             </div>
                                         </div>
                                         <div class="col-7 col-stats">

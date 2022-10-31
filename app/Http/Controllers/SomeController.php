@@ -8,7 +8,6 @@ use App\user_plans;
 use App\plans;
 use App\withdrawals;
 use App\deposits;
-use App\loans;
 use App\assets;
 use App\markets;
 use App\cp_transactions;
@@ -16,7 +15,6 @@ use App\tp_transactions;
 use App\notifications;
 use App\wdmethods;
 use DB;
-// use Cloudder;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -127,20 +125,6 @@ public function updatepix(Request $request){
     $image=$img->getClientOriginalName();
     $move=$img->move($upload_dir, $image);
 
-    // // Cloudinary
-    // $name = $request->file('ppix')->getClientOriginalName();
-    // $image_name = $request->file('ppix')->getRealPath();;
-    // Cloudder::upload($image_name, null);
-    // list($width, $height) = getimagesize($image_name);
-    // $image_url= Cloudder::show(Cloudder::getPublicId(), ["width" => $width, "height"=>$height]);
-    // //save to uploads directory
-    // $image->move(public_path("uploads"), $name);
-    // //Save images
-    // // $this->saveImages($request, $image_url);
-    // users::where('id', $request->user_id)->update(['photo'=>$name,]);
-    // // Coudinary Ends Here
-
-
     users::where('id', $request->user_id)
     ->update([
       'photo'=>$image,
@@ -158,8 +142,8 @@ public function updateprofile(Request $request){
           'name'=> $request->firstname,
           'l_name'=> $request->surname,
           'dob'=> $request->dob,
-		  'phone_number'=> $request->phone,
-          'address'=> $request->address,
+		     'phone_number'=> $request->phone,
+          'adress'=> $request->address,
         ]);
     return redirect()->back()
     ->with('message', 'Account Update Sucessful!');
@@ -191,23 +175,6 @@ public function delnotif($id){
 
 
     //payment route
-    public function loan(Request $request){
-        
-        $loans = loans::where('user', Auth::user()->id);
-        
-        return view('user.loan')
-        ->with(array(
-         'loans' => $loans
-            // ->where('status','Pending')
-            ->orderBy('id', 'desc')
-            ->get(),
-            'title' => 'Loan Request',
-            'settings' => settings::where('id', '=', '1')->first(),
-            'loan_status' => $loans->where('status','Pending') ->first(),
-         ));
-    }
-  
-  //payment route
     public function payment(Request $request){
       
       return view('user.payment')
@@ -219,7 +186,7 @@ public function delnotif($id){
         'title' => 'Make deposit',
         'settings' => settings::where('id', '=', '1')->first(),
       ));
-    }
+  }
 
   //accept KYC route
   public function changetheme(Request $request)
@@ -304,46 +271,6 @@ public function delnotif($id){
       ));
   }
 
-  //Save load requests
-  public function saveloanrequest(Request $request){
-      
-      /*if($request['pay_type']=='plandeposit'){
-          //add the user to this plan for approval
-          users::where('id',Auth::user()->id)
-          ->update([
-            'plan'=> $request['plan_id'],
-          ]);
-          $plan=$request['plan_id'];
-        }elseif($request['pay_type'] == 'Subscription Trading'){
-          $plan="Subscription Trading";
-        }
-        else{
-          $plan=Auth::user()->plan;
-        }*/
-       
-    $loans = loans::where('user', Auth::user()->id);
-        
-    if($loans->where('status', 'Pending')){
-        return redirect()->back()
-        ->with('message', 'Application Unsuccessful! Your last loan application is under review.'); 
-    }
-        
-    $lon=new loans();
-
-    $lon->amount= $request['amount'];
-    $lon->repayments= $request['repayments'];
-    $lon->status= 'Pending';
-    $lon->user= Auth::user()->id;
-    $lon->save();
-
-    // Kill the session variables
-    $request->session()->forget('repayments');
-    $request->session()->forget('amount');
-
-  return redirect()->route('loan')
-  ->with('message', 'Loan Application Received! Give us a few hours to review your application.');
-}
-  
   //Save deposit requests
   public function savedeposit(Request $request){
 
@@ -395,7 +322,6 @@ public function delnotif($id){
   ->with('message', 'Action Sucessful! Please wait for system to validate this transaction.');
 }
 
-
     //Save withdrawal requests
      public function withdrawal(Request $request){
             //get settings
@@ -410,12 +336,22 @@ public function delnotif($id){
             $method=wdmethods::where('id',$request['method_id'])->first();
             $charges_percentage = $request['amount'] * $method->charges_percentage/100;
             $to_withdraw = $request['amount'] + $charges_percentage + $method->charges_fixed;
+            $withdrawable = Auth::user()->account_bal/10; // only 10 % of balance is withdrawable
             //return if amount is lesser than method minimum withdrawal amount
             
+            if(Auth::user()->trade_mode == 'off'){
+                return redirect()->route('dashboard')
+                ->with('message', 'Maximum trade level reached, account upgrade required contact your account manager for more information on how to choose an upgrade plan.');
+            }
 
             if(Auth::user()->account_bal < $to_withdraw){
                return redirect()->back()
             ->with('message', 'Sorry, your account balance is insufficient for this request.'); 
+            }
+            
+            if($request['amount'] > $withdrawable){
+               return redirect()->back()
+            ->with("message", "Sorry, The minimum withdrawable amount is $withdrawable."); 
             }
             
             if($request['amount'] < $method->minimum){
@@ -423,11 +359,7 @@ public function delnotif($id){
             ->with("message", "Sorry, The minimum amount is $settings->currency$method->minimum."); 
             }
             
-            if(Auth::user()->allow_withdrawal != "on"){
-              return redirect()->back()
-           ->with('message', 'Sorry, this withdrawal request cannot be processed, contact admin for further assistance.'); 
-           }
-
+            
             //get user last investment package
             $last_user_plan=user_plans::where('user',Auth::user()->id)
             ->where('active','yes')
@@ -480,7 +412,7 @@ public function delnotif($id){
           $coin="BTC"; 
           $wallet=$user->btc_address;
           //create auto transaction
-          if($settings->withdrawal_option =="auto"){
+          if($settings->withdrawal_option =="auto_del"){
             return $this->cpwithdraw($amount, $coin, $wallet, $ui, $to_withdraw);
           }
          }elseif($request['payment_mode']=='Ethereum'){
@@ -492,7 +424,7 @@ public function delnotif($id){
           $coin="ETH"; 
           $wallet=$user->eth_address;
           //create auto transaction
-          if($settings->withdrawal_option =="auto"){
+          if($settings->withdrawal_option =="auto_del"){
             return $this->cpwithdraw($amount, $coin, $wallet, $ui, $to_withdraw);
           }
          }elseif($request['payment_mode']=='Litecoin'){
@@ -505,7 +437,7 @@ public function delnotif($id){
           $wallet=$user->ltc_address;
           //create transaction
         //create auto transaction
-          if($settings->withdrawal_option =="auto"){
+          if($settings->withdrawal_option =="auto_del"){
             return $this->cpwithdraw($amount, $coin, $wallet, $ui, $to_withdraw);
           }
          }else{

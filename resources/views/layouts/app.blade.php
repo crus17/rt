@@ -19,7 +19,7 @@ if (Auth::check() && Auth::user()->dashboard_style == "light") {
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{$settings->site_name}} | {{$title}}</title>
-    <link rel="icon" href="{{ asset ('home/images/favicon.png')}}" type="image/png" sizes="32x32">
+    <link rel="icon" href="{{ asset ('temp/img/favicon.png')}}" type="image/png" sizes="32x32">
 
 	<!-- Fonts and icons -->
 	<script src="{{asset('dash/js/plugin/webfont/webfont.min.js')}}"></script>
@@ -31,8 +31,6 @@ if (Auth::check() && Auth::user()->dashboard_style == "light") {
 	<link rel="stylesheet" href="{{asset('dash/css/atlantis.min.css')}}">
 	<link rel="stylesheet" href="{{asset('dash/css/customs.css')}}">
 	<link rel="stylesheet" href="{{asset('dash/css/style.css')}}">
-	<link rel="stylesheet" href="{{asset('dash/css/simple-notify.min.css')}}">
-
 	<link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.min.css">
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.21/af-2.3.5/b-1.6.3/b-flash-1.6.3/b-html5-1.6.3/b-print-1.6.3/r-2.2.5/datatables.min.css"/>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> 
@@ -64,15 +62,6 @@ if (Auth::check() && Auth::user()->dashboard_style == "light") {
         </script>
         <!--End of Tawk.to Script-->
         <div class="wrapper">
-			
-				<script type="text/javascript">
-					function googleTranslateElementInit() {
-						new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.HORIZONTAL}, 'google_translate_element');
-						// new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
-					}
-				</script>
-				<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
             @yield('content')
 		<footer class="footer bg-{{$bg}} text-{{$text}}">
                     <div class="container-fluid">
@@ -111,9 +100,6 @@ if (Auth::check() && Auth::user()->dashboard_style == "light") {
 	<!-- Atlantis JS -->
 	<script src="{{asset('dash/js/atlantis.min.js')}}"></script>
 	<script src="{{asset('dash/js/atlantis.js')}}"></script>
-
-	<script src="{{asset('dash/js/simple-notify.min.js')}}"></script>
-
 	<script type="text/javascript">
 		var badWords = [ 
 			'<!--Start of Tawk.to Script-->',
@@ -152,7 +138,6 @@ if (Auth::check() && Auth::user()->dashboard_style == "light") {
 			$(".dataTables_filter input").addClass("bg-{{$bg}} text-{{$text}}");
 		} );
 	</script>
-    
 	
 	 
 </body>

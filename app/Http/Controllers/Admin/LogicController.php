@@ -27,7 +27,6 @@ use App\Contents;
 use App\mt4details;
 use App\deposits;
 use App\wdmethods;
-use App\loans;
 use App\withdrawals;
 use App\cp_transactions;
 use App\tp_transactions;
@@ -98,32 +97,27 @@ class LogicController extends Controller
 
           //top up route
     public function topup(Request $request){
-        
-        $settings=settings::where('id', '=', '1')->first();
+
         $user=users::where('id',$request['user_id'])->first();
         $user_bal=$user->account_bal;
         $user_bonus=$user->bonus;
         $user_roi=$user->roi;
         $user_Ref=$user->ref_bonus;
-        $message_type = "";
   
         if($request['t_type']=="Credit") {
           if ($request['type']=="Bonus") {
-              $message_type = "Bonus";
             users::where('id', $request['user_id'])
               ->update([
               'bonus'=> $user_bonus + $request['amount'],
               'account_bal'=> $user_bal + $request->amount,
               ]);
           }elseif ($request['type']=="Profit") {
-              $message_type = "Profit";
             users::where('id', $request->user_id)
               ->update([
                 'roi'=> $user_roi + $request->amount,
                 'account_bal'=> $user_bal + $request->amount,
               ]);
           }elseif($request['type']=="Ref_Bonus"){
-              $message_type = "Referral Bonus";
             users::where('id', $request->user_id)
               ->update([
                 'Ref_Bonus'=> $user_Ref + $request->amount,
@@ -131,24 +125,13 @@ class LogicController extends Controller
               ]);
           }
           
-          //send email notification
-          $value = number_format($request->amount);
-          $objDemo = new \stdClass();
-          $objDemo->message = "You have just earned $value $settings->s_currency $message_type on your live $settings->site_name Account.";
-          $objDemo->sender = $settings->site_name;
-          $objDemo->date = \Carbon\Carbon::Now();
-          $objDemo->subject ="Credit Notification";
-          
-          Mail::bcc($user->email)->send(new NewNotification($objDemo));
-          
-        
           //add history
-          tp_transactions::create([
-              'user' => $request->user_id,
-              'plan' => "Credit",
-              'amount'=>$request->amount,
-              'type'=>$request->type,
-            ]);
+         tp_transactions::create([
+        'user' => $request->user_id,
+        'plan' => "Credit",
+         'amount'=>$request->amount,
+         'type'=>$request->type,
+        ]);
         
         }elseif($request['t_type']=="Debit") {
           if ($request['type']=="Bonus") {
@@ -172,13 +155,12 @@ class LogicController extends Controller
             }
             
              //add history
-             
-            tp_transactions::create([
-                'user' => $request->user_id,
-                'plan' => "Credit reversal",
-                'amount'=>$request->amount,
-                'type'=>$request->type,
-            ]);
+         tp_transactions::create([
+        'user' => $request->user_id,
+        'plan' => "Credit reversal",
+         'amount'=>$request->amount,
+         'type'=>$request->type,
+        ]);
         
         }
             return redirect()->route('manageusers')
@@ -383,25 +365,28 @@ class LogicController extends Controller
         ->with('message', 'Action Sucessful!');
       }
   
-       //process loans
-       public function processloan($id, $agree){
+       //process withdrawals
+       public function pwithdrawal($id){
   
-        $loan=loans::where('id',$id)->first();
-        $user=users::where('id',$loan->user)->first();
-        loans::where('id',$id)
+        $withdrawal=withdrawals::where('id',$id)->first();
+        $user=users::where('id',$withdrawal->user)->first();
+        //if($withdrawal->user==$user->id){
+          //debit the processed amount
+          //users::where('id',$user->id)
+        //->update([
+        //'account_bal' => $user->account_bal-$withdrawal->to_deduct,
+        //]);
+        //}
+        withdrawals::where('id',$id)
         ->update([
-        'status' => $agree == 'yes'? 'Approved':'Rejected',
+        'status' => 'Processed',
         ]);
         
         $settings=settings::where('id', '=', '1')->first();
-       
-        $msg = $agree == 'yes'? "This is to inform you that your loan request for $settings->currency $loan->amount has been approved." 
-                : "This is to inform you that your loan request for $settings->currency $loan->amount was rejected.";
           
           //send email notification
           $objDemo = new \stdClass();
-        //   $objDemo->message = "This is to inform you that a successful withdrawal has just occured on your account. Amount: $settings->currency$withdrawal->amount.";
-          $objDemo->message = $msg; 
+          $objDemo->message = "This is to inform you that a successful withdrawal has just occured on your account. Amount: $settings->currency$withdrawal->amount.";
           $objDemo->sender = $settings->site_name;
           $objDemo->subject ="Successful withdrawal";
           $objDemo->date = \Carbon\Carbon::Now();
@@ -411,76 +396,9 @@ class LogicController extends Controller
         return redirect()->back()
         ->with('message', 'Action Sucessful!');
         }
-        
-       //process withdrawals
-      public function pwithdrawal($id){
-  
-          $withdrawal=withdrawals::where('id',$id)->first();
-          $user=users::where('id',$withdrawal->user)->first();
-          
-          // if($withdrawal->user==$user->id){
-          //   // debit the processed amount
-          //   users::where('id',$user->id)
-          //   ->update([
-          //   'account_bal' => $user->account_bal-$withdrawal->to_deduct,
-          //   ]);
-          // }
-          withdrawals::where('id',$id)
-          ->update([
-          'status' => 'Processed',
-          ]);
-          
-          $settings=settings::where('id', '=', '1')->first();
-            
-            //send email notification
-            $objDemo = new \stdClass();
-            $objDemo->message = "This is to inform you that a successful withdrawal has just occured on your account. Amount: $settings->currency$withdrawal->amount.";
-            $objDemo->sender = $settings->site_name;
-            $objDemo->subject ="Successful withdrawal";
-            $objDemo->date = \Carbon\Carbon::Now();
-                
-            Mail::bcc($user->email)->send(new NewNotification($objDemo));
-            
-          return redirect()->back()
-          ->with('message', 'Action Sucessful!');
-      }
-
-      //process withdrawals
-      public function decwithdrawal($id){
-  
-        $withdrawal=withdrawals::where('id',$id)->first();
-        $user=users::where('id',$withdrawal->user)->first();
-        
-        if($withdrawal->user==$user->id){
-          // refund the account with the debited amount
-          users::where('id',$user->id)
-          ->update([
-          'account_bal' => $user->account_bal+$withdrawal->to_deduct,
-          ]);
-        }
-        withdrawals::where('id',$id)
-        ->update([
-        'status' => 'Declined',
-        ]);
-        
-        $settings=settings::where('id', '=', '1')->first();
-          
-          //send email notification
-          $objDemo = new \stdClass();
-          $objDemo->message = "This is to inform you that your withdrawal request for $settings->currency$withdrawal->amount was not approved. You can reach out to customer service for clarificaion.";
-          $objDemo->sender = $settings->site_name;
-          $objDemo->subject ="Withdrawal Declined";
-          $objDemo->date = \Carbon\Carbon::Now();
-              
-          Mail::bcc($user->email)->send(new NewNotification($objDemo));
-          
-        return redirect()->back()
-        ->with('message', 'Action Sucessful!');
-    }
   
   
-       
-        //Trash Plans route
+       //Trash Plans route
        public function trashplan($id)
        {
         //remove users from the plan before deleting

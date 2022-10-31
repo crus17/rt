@@ -348,8 +348,8 @@ public function updatemark(Request $request){
         return redirect()->back()
         ->with('message', 'Action Sucessful');
   }
-
-  //save Setttings to DB
+  
+   //save Setttings to DB
   public function updatebasicsettings(Request $request){  
 
     settings::where('id', $request['id'])
@@ -363,7 +363,8 @@ public function updatemark(Request $request){
     ]);
     return redirect()->back()
     ->with('message', 'Action Sucessful');
-}
+  }
+  
   public function updateasset(Request $request){
 
     $assets = new assets;

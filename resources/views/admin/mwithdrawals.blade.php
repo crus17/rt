@@ -12,7 +12,7 @@ if (Auth('admin')->User()->dashboard_style == "light") {
         <div class="main-panel">
 			<div class="content bg-{{Auth('admin')->User()->dashboard_style}}">
 				<div class="page-inner">
-					<div class="mt-2 mb-4"> 
+					<div class="mt-2 mb-4">
 					<h1 class="title1 text-{{$text}}">Manage clients withdrawals</h1>
 					</div>
 					@if(Session::has('message'))
@@ -81,11 +81,8 @@ if (Auth('admin')->User()->dashboard_style == "light") {
 											<td>
 											@if($deposit->status =="Processed") 
 											<a class="btn btn-success btn-sm" href="#">Processed</a>
-											@elseif($deposit->status =="Declined")
-											<a class="btn btn-danger btn-sm" href="#">Declined</a>
 											@else
 											<a class="btn btn-primary btn-sm m-1" href="{{ url('admin/dashboard/pwithdrawal') }}/{{$deposit->id}}">Process</a>
-											<a class="btn btn-danger btn-sm m-1" href="{{ url('admin/dashboard/decwithdrawal') }}/{{$deposit->id}}">Decline</a>
 											@endif
 											<a href="#" class="btn btn-info btn-sm m-1" data-toggle="modal" data-target="#viewModal{{$deposit->id}}"><i class="fa fa-eye"></i> View</a>
 											</td> 

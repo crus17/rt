@@ -9,14 +9,17 @@
         <div class="container-form user-auth" >
 				<div class="section-form-box">
                             <!-- Logo Starts -->
+                            <!--<a href="{{url('/')}}" class="text-center"><img src="{{ $settings->site_address}}/cloud/app/images/{{$settings->logo}}" alt="{{$settings->site_name}}" class="text-center"> </a>-->
+                            <!--<a href="{{url('/')}}" class="text-center"><img src="{{ asset ('public/sppcoindom.jpg')}}" alt="{{$settings->site_name}}" class="text-center"> </a>-->
                             <div>
                                 <a href="{{url('/')}}">
-                                  <span style="color:#04b9f4;font-size:30px;" class="w3-hide-large"><img src="{{ asset ('home/images/logo-light.png')}}" width="320"></span>
+                                  <!--<span style="color:#04b9f4;font-size:30px;" class="w3-hide-large"><img src="{{ asset ('temp_new/images/log.png')}}">{{$settings->site_name}}</span>-->
+                                  <span style="color:#04b9f4;font-size:30px;" class="w3-hide-large"><img src="{{ asset ('temp/img/logo_dark.png')}}" width="320"></span>
                                 </a>
                             </div>
                             <!-- Logo Ends -->
 						    <!-- Section Title Starts -->
-							<h3 class="mb-3"> registration</h3>
+							<h3 class="mb-3">member registration</h3>
 						<!-- Section Title Ends -->
 						<!-- Form Starts -->
 						<form  class="form" method="POST" action="{{ route('register') }}">
@@ -92,26 +95,19 @@
                             <div class="form__group">
 								
 								<select  class="form__input" name="country" id="country">
-                                <option value="" selected disabled hidden>Select country</option>
-                                <option selected="selected">{{$user_country}}</option>
+								<option value="None">Select country</option>
 								@foreach($countries as $country)
-                                    @if($country === $user_country)
-                                        <option value="{{$country}}" selected>{{$country}}</option>
-                                    @else
-                                        <option value="{{$country}}">{{$country}}</option>
-                                    @endif
+								<option value="{{$country}}">{{$country}}</option>
 								@endforeach
                                 </select>
                             </div>
 							<!-- Submit Form Button Starts -->
 							<div class="form__group text-center">
 								<button class="btn btn__login" type="submit">Create account</button>
+								<p class="text-center">Already a member?  <a href="{{route('login')}}">Login now</a></p>
                             </div>
                             
 							<!-- Submit Form Button Ends -->
-                            <div class="signup text-center">
-                                <a href="{{route('login')}}"><p class=""> Already a member? Login </p></a>
-                            </div>
                         </form>
                         <!-- Form Ends -->
                         <!-- Copyright Text Starts -->

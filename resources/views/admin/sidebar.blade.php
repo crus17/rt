@@ -36,12 +36,7 @@
                         <p>Manage Users</p>
                     </a>
                 </li>
-                <!--<li class="nav-item">
-                    <a href="{{ url('/admin/dashboard/mloanrequests') }}">
-                        <i class="fa fa-money-bill" aria-hidden="true"></i>
-                        <p>Manage Loan Request</p>
-                    </a>
-                </li>-->
+                
                 <li class="nav-item">
                     <a data-toggle="collapse" href="#mdw">
                         <i class="fas fa-credit-card"></i>
@@ -63,7 +58,7 @@
                         </ul>
                     </div>
                 </li>
-                 
+                
                 <li class="nav-item">
                     <a href="{{ url('/admin/dashboard/agents') }}">
                         <i class="fas fa-users " aria-hidden="true"></i>
@@ -114,6 +109,7 @@
                         <p>Front-end control</p>
                     </a>
                 </li>
+                
                 @endif
                 <li class="nav-item">
                     <a href="{{ url('/admin/dashboard/settings') }}">
@@ -121,6 +117,7 @@
                         <p>Settings</p>
                     </a>
                 </li>
+                
             </ul>
         </div>
     </div>

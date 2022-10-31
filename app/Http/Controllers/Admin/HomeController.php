@@ -22,7 +22,6 @@ use App\assets;
 use App\markets;
 use App\mt4details;
 use App\deposits;
-use App\loans;
 use App\wdmethods;
 use App\withdrawals;
 use App\cp_transactions;
@@ -184,17 +183,6 @@ class HomeController extends Controller
           ->with(array(
           'title'=>'Manage users deposits',
           'deposits' => deposits::orderBy('id', 'desc')->get(),
-          'settings' => settings::where('id', '=', '1')->first(),
-          ));
-      }
-      
-      //Return manage loans route
-      public function mloanrequests()
-      {
-        return view('admin.mloanrequests')
-          ->with(array(
-          'title'=>'Manage users deposits',
-          'loans' => loans::orderBy('id', 'asc')->get(),
           'settings' => settings::where('id', '=', '1')->first(),
           ));
       }

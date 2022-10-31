@@ -35,5 +35,5 @@ class users extends Model
     public function dplan(){
     	return $this->belongsTo('App\plans', 'plan');
     }
-	protected $fillable=['name','dob','l_name','address','phone_number'];
+	protected $fillable=['name','dob','l_name','adress','phone_number'];
 }

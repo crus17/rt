@@ -62,7 +62,8 @@ if (Auth('admin')->User()->dashboard_style == "light") {
 							</nav>
 		
 		
-								<div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
+							<div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
+		
 								{{-- This is the first Tab content --}}
 								<div class="tab-pane fade show active bg-{{Auth('admin')->User()->dashboard_style}} card p-3" id="1" role="tabpanel" aria-labelledby="nav-home-tab">
 									@include('admin.includes.webinfo')
@@ -87,14 +88,12 @@ if (Auth('admin')->User()->dashboard_style == "light") {
 								<div class="tab-pane fade p-4 bg-{{Auth('admin')->User()->dashboard_style}}" id="6" role="tabpanel" aria-labelledby="nav-about-tab">
 									@include('admin.includes.subscript')
 								</div>
-
+							</div>
+							
 							@else
 								{{-- This is the Basic Admin Content --}}
 									@include('admin.includes.basics')
 							@endif
-
-								
-							</div>
 						</div>
 					</div>
 				</div>

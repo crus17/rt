@@ -24,7 +24,7 @@ error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
 Route::get ('');
 Route::get('cloud/app/images/{file}', [ function ($file) {
     $settings = DB::table('settings')->where('id', '1')->first();
-    $path = storage_path("../public/$settings->files_key/cloud/uploads/".$file);
+    $path = storage_path("../../$settings->files_key/cloud/uploads/".$file);
     if (file_exists($path)) {
         return response()->file($path, array('Content-Type' =>'image/jpeg'));
     }
@@ -91,8 +91,6 @@ Route::group(['prefix' => 'admin',  'middleware' => 'isadmin'], function()
 	Route::post('dashboard/searchWith','Admin\HomeController@searchWt');
 	Route::post('dashboard/searchsub','Admin\HomeController@searchsub');
 
-	
-	Route::get('dashboard/mloanrequests','Admin\HomeController@mloanrequests')->name('mloanrequests');
 	Route::get('dashboard/mwithdrawals', 'Admin\HomeController@mwithdrawals')->name('mwithdrawals');
 	Route::get('dashboard/mdeposits','Admin\HomeController@mdeposits')->name('mdeposits');
 	Route::get('dashboard/agents', 'Admin\HomeController@agents')->name('agents');
@@ -117,8 +115,6 @@ Route::group(['prefix' => 'admin',  'middleware' => 'isadmin'], function()
 	Route::get('dashboard/deldeposit/{id}','Admin\LogicController@deldeposit')->name('deldeposit');
 	Route::get('dashboard/pdeposit/{id}','Admin\LogicController@pdeposit')->name('pdeposit');
 	Route::get('dashboard/pwithdrawal/{id}','Admin\LogicController@pwithdrawal')->name('pwithdrawal');
-	Route::get('dashboard/decwithdrawal/{id}','Admin\LogicController@decwithdrawal')->name('decwithdrawal');
-	Route::get('dashboard/processloan/{id}/{agree}','Admin\LogicController@processloan')->name('processloan');
 	Route::post('dashboard/addagent', 'Admin\LogicController@addagent');
 	Route::get('dashboard/viewagent/{agent}','Admin\HomeController@viewagent')->name('viewagent');
 	Route::get('dashboard/delagent/{id}','Admin\LogicController@delagent')->name('delagent');
@@ -127,7 +123,7 @@ Route::group(['prefix' => 'admin',  'middleware' => 'isadmin'], function()
 	Route::post('dashboard/updatecpd', 'Admin\SettingsController@updatecpd');
 	Route::post('dashboard/updatesettings', 'Admin\SettingsController@updatesettings');
 	Route::post('dashboard/updatebasicsettings', 'Admin\SettingsController@updatebasicsettings');
-	Route::post('dashboard/updatepreference', 'Admin\SettingsController@updatepreference');
+    Route::post('dashboard/updatepreference', 'Admin\SettingsController@updatepreference');
 	Route::post('dashboard/updatewebinfo', 'Admin\SettingsController@updatewebinfo');
 	Route::post('dashboard/updatebot', 'Admin\SettingsController@updatebot');
 	Route::post('dashboard/updatebotswt', 'Admin\SettingsController@updatebotswt');
@@ -158,7 +154,6 @@ Route::group(['prefix' => 'admin',  'middleware' => 'isadmin'], function()
 	Route::get('dashboard/uunblock/{id}','Admin\SystemController@unblock');
 	Route::get('dashboard/delsystemuser/{id}','Admin\LogicController@delsystemuser');
 	Route::get('dashboard/usertrademode/{id}/{action}','Admin\SystemController@usertrademode');
-	Route::get('dashboard/userwithdrawalmode/{id}/{action}','Admin\SystemController@userwithdrawalmode');
 
 	Route::post('dashboard/sendmailtoall', 'Admin\LogicController@sendmailtoall')->name('sendmailtoall');
 	
@@ -227,7 +222,6 @@ Auth::routes();
 	Route::get('licensing', 'UsersController@licensing')->name('licensing');
 	Route::get('dashboard/deposits', ['middleware' => 'auth', 'uses' => 'Controller@deposits'])->name('deposits');
 	Route::get('dashboard/skip_account', ['middleware' => 'auth', 'uses' => 'Controller@skip_account']);
-	Route::get('dashboard/loan', 'SomeController@loan')->name('loan');
 	Route::get('dashboard/payment', 'SomeController@payment')->name('payment');
 	Route::get('dashboard/tradinghistory', 'SomeController@tradinghistory')->name('tradinghistory');
 	Route::get('dashboard/accounthistory', 'SomeController@accounthistory')->name('accounthistory');
@@ -250,7 +244,6 @@ Auth::routes();
 	Route::post('dashboard/deposit', 'SomeController@deposit');
 	Route::post('dashboard/chngemail', 'UsersController@chngemail');
 	Route::post('dashboard/savedeposit', 'SomeController@savedeposit');
-	Route::post('dashboard/saveloanrequest', 'SomeController@saveloanrequest');
  	//Route::post('dashboard/addwdmethod', 'SomeController@addwdmethod');
 
     //Rave

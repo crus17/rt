@@ -98,7 +98,6 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
             'phone_number' => $data['phone'],
-            'country' => $data['country'],
             'act_session' => session()->getId(),
         ]);
         

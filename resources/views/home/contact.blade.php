@@ -1,4 +1,4 @@
-
+@inject('content', 'App\Http\Controllers\FrontController')
 <!doctype html>
 <html lang="en">
 
@@ -13,25 +13,26 @@
         <link href="https://fonts.googleapis.com/css?family=PT+Sans&amp;Ubuntu:400,500,700" rel="stylesheet">
         
         <!-- Libraries CSS Files -->
-        <!--<link href="{{ asset ('home/lib/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet">-->
-        <!--{{ asset ('home/')}}-->
-        <link rel="stylesheet" type="text/css" href="{{ asset ('home/css/bootstrap.min.css')}}">
-        <link rel="stylesheet" type="text/css" href="{{ asset ('home/css/magnific-popup/magnific-popup.css')}}" />
-        <link rel="stylesheet" type="text/css" href="{{ asset ('home/css/owl-carousel/owl.carousel.css')}}" />
-        <link rel="stylesheet" type="text/css" href="{{ asset ('home/css/animate.css')}}" />
-        <!--<link rel="stylesheet" type="text/css" href="{{ asset ('home/css/font-awesome.css')}}" />-->
+        <!--<link href="{{ asset ('zenith/lib/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet">-->
+        <!--{{ asset ('zenith/')}}-->
+        <link rel="stylesheet" type="text/css" href="{{ asset ('zenith/css/bootstrap.min.css')}}">
+        <link rel="stylesheet" type="text/css" href="{{ asset ('zenith/css/magnific-popup/magnific-popup.css')}}" />
+        <link rel="stylesheet" type="text/css" href="{{ asset ('zenith/css/owl-carousel/owl.carousel.css')}}" />
+        <link rel="stylesheet" type="text/css" href="{{ asset ('zenith/css/animate.css')}}" />
+        <!--<link rel="stylesheet" type="text/css" href="{{ asset ('zenith/css/font-awesome.css')}}" />-->
         <link href="{{ asset ('temp/lib/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" href="{{ asset ('home/css/ionicons.min.css')}}">
-        <link rel="stylesheet" type="text/css" href="{{ asset ('home/css/flaticon.css')}}">
-        <link rel="stylesheet" type="text/css" href="{{ asset ('home/css/shop.css')}}">
-        <link rel="stylesheet" type="text/css" href="{{ asset ('home/revslider/css/settings.css')}}">
-        <link rel="stylesheet" type="text/css" href="{{ asset ('home/css/style.css')}}">
-        <link rel="stylesheet" type="text/css" href="{{ asset ('home/css/responsive.css')}}">
-        <link rel="stylesheet" type="text/css" href="{{ asset ('home/css/custom.css')}}">
+        <link rel="stylesheet" type="text/css" href="{{ asset ('zenith/css/ionicons.min.css')}}">
+        <link rel="stylesheet" type="text/css" href="{{ asset ('zenith/css/flaticon.css')}}">
+        <link rel="stylesheet" type="text/css" href="{{ asset ('zenith/css/shop.css')}}">
+        <link rel="stylesheet" type="text/css" href="{{ asset ('zenith/revslider/css/settings.css')}}">
+        <link rel="stylesheet" type="text/css" href="{{ asset ('zenith/css/style.css')}}">
+        <link rel="stylesheet" type="text/css" href="{{ asset ('zenith/css/responsive.css')}}">
+        <link rel="stylesheet" type="text/css" href="{{ asset ('zenith/css/custom.css')}}">
+        <link rel="stylesheet" type="text/css" href="{{ asset ('zenith/css/toast.css')}}">
     
         <!-- Main Stylesheet File -->
         <link rel="stylesheet" href="javascript:void(0)" data-style="styles">
-        <link rel="stylesheet" href="{{ asset ('home/css/style-customizer.css')}}" />
+        <link rel="stylesheet" href="{{ asset ('zenith/css/style-customizer.css')}}" />
         
         <!--Start of Tawk.to Script-->
         <script type="text/javascript">
@@ -52,7 +53,7 @@
 
     <div id="loading">
         <div id="loading-center">
-            <img src="{{ asset('home/images/loader.gif') }}" alt="loder">
+            <img src="{{ asset('zenith/images/loader.gif') }}" alt="loder">
         </div>
     </div>
     
@@ -86,7 +87,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="logo">
-                            <a href="\"><img id="logo_img" id="logo_img" class="img-fluid" src="{{ asset('home/images/logo-light.png') }}" alt="logo"></a>
+                            <a href="\"><img id="logo_img" id="logo_img" class="img-fluid" src="{{ asset('zenith/images/logo-white.png') }}" alt="logo"></a>
                         </div>
                         <nav> <a id="resp-menu" class="responsive-menu" href="javascript:void(0)"><i class="fa fa-reorder"></i> Menu</a>
                             <ul class="menu text-right">
@@ -97,7 +98,7 @@
                                 <li><a href="login">Login/Join</a></li>
                                 <li><a class="active" href="javascript:void(0)">Company</a>
                                     <ul class="sub-menu">
-                                        <li><a href="#">About Us</a></li>
+                                        <li><a href="about">About Us</a></li>
                                         <li><a href="#">Contact Us</a></li>
                                     </ul>
                                 </li>
@@ -111,7 +112,7 @@
     
     <div class="clearfix"></div>
 
-    <section class="iq-bg iq-bg-fixed iq-over-black-70 jarallax iq-breadcrumb text-center iq-font-white" style="background-image: url({{ asset('home/images/bg/bg-2.jpg')}}); background-position: center center;">
+    <section class="iq-bg iq-bg-fixed iq-over-black-70 jarallax iq-breadcrumb text-center iq-font-white" style="background-image: url({{ asset('zenith/images/bg/bg-2.jpg')}}); background-position: center center;">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 offset-lg-2">
@@ -141,7 +142,7 @@
                         <div>
                             <i aria-hidden="true" class="ion-ios-location-outline iq-icon"></i><span class="iq-title text-uppercase iq-ml-15 iq-tw-6 iq-font-yellow">Address</span>
                         </div>
-                        <div class="lead iq-font-white">103 Bedford street suite 102, Hamilton Montana, 59840, USA</div>
+                        <div class="lead iq-font-white">{{$settings->office_address}}</div>
                     </div>
                     <div class="contact-box iq-mb-30">
                         <div>
@@ -161,7 +162,7 @@
                         <div class="col-lg-7">
                             <h3 class="iq-mtb-30">Contact Form</h3>
                             <div id="formmessage">Success/Error Message Goes Here</div>
-                                <form class="form-horizontal" id="contactform" method="post" action="">
+                                <form class="form-horizontal" id="contactform" method="post" action="{{action('UsersController@sendcontact')}}">
                                    <div class="contact-form">
                                         <div class="section-field iq-mb-30">
                                             <input id="name" type="text" placeholder="Name*" name="name">
@@ -185,6 +186,55 @@
             </div>
             
         </section>
+        
+        <!--==========================
+      Contact Section
+    ============================-->
+    <!--section id="contact" class="section-bg wow fadeInUp">
+      <div class="container">
+
+        
+
+        <div class="form">
+
+          @if(Session::has('message'))
+          <div class="col-lg-12">
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+              {{ Session::get('message') }}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          </div>
+          @endif
+
+          <form  action="{{action('UsersController@sendcontact')}}"  method="POST" role="form" class="contactForm">
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <input type="text" name="name" class="form-control" id="form3" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" required/>
+                <div class="validation"></div>
+              </div>
+              <div class="form-group col-md-6">
+                <input type="email" class="form-control" name="email" id="form2" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email" required/>
+                <div class="validation"></div>
+              </div>
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject"required />
+              <div class="validation"></div>
+            </div>
+            <div class="form-group">
+              <textarea class="form-control" id="form8" name="message" rows="5" data-rule="required" data-msg="Please write something for us" placeholder="Message" required></textarea>
+              <input type="hidden" name="_token" value="{{ csrf_token() }}">
+              <div class="validation"></div>
+            </div>
+            <div class="text-center"><button type="submit">Send Message</button></div>
+            <div><button id="submit" name="submit" type="submit" value="Send" class="button pull-right iq-mt-40">Send Message</button></div>
+          </form>
+        </div>
+
+      </div>
+    </section>< #contact -->
     
             
     
@@ -193,12 +243,12 @@
     <div class="clearfix"></div>
 
     <footer class="iq-footer">
-            <div class="footer-top iq-bg iq-bg-fixed iq-over-black-80" style="background-image:url({{ asset('home/images/bg/bg-13.jpg') }}); ">
+            <div class="footer-top iq-bg iq-bg-fixed iq-over-black-80" style="background-image:url({{ asset('zenith/images/bg/bg-13.jpg') }}); ">
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-3 col-md-6 col-sm-12 iq-mtb-60">
                             <div class="logo">
-                            <img id="logo_img_2" class="img-fluid" src="{{ asset('home/images/logo-light.png') }}" alt="# ">
+                            <img id="logo_img_2" class="img-fluid" src="{{ asset('zenith/images/logo-white.png') }}" alt="# ">
                             <div class="iq-font-white iq-mt-15 ">{{$settings->site_name}} bot is a trading platform that pays his investors 100% daily for 30days. 
                                 We are here to help you trade and lead you to financial freedom. The bot has been built with the latest artificial intelligence technology in the industry.
                             </div>
@@ -233,8 +283,8 @@
                             </div>
                             <div class="blog"><i class="ion-ios-location-outline"></i>
                                 <div class="content ">
-                                    <div class="iq-tw-6 title ">Address</div> 103 Bedford street suite 102, Hamilton 
-                                    Montana, 59840, USA
+                                    <div class="iq-tw-6 title ">Address</div> {{$settings->office_address}}<br></br>
+                                    <div class="iq-tw-6 title ">Branch Address</div> 30 Wellington St W, Toronto, Canada.
                                 </div>
                             </div>
                         </div>
@@ -262,7 +312,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-sm-6">
-                        <div class="iq-copyright iq-mt-10 iq-font-white">Copyright <span id="copyright"> <script data-cfasync="false" src="{{ asset('home/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js') }}"></script><script data-cfasync="false" src="../../../home/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))</script></span> <a href="javascript:void(0)">{{$settings->site_name}}</a> All Rights Reserved </div>
+                        <div class="iq-copyright iq-mt-10 iq-font-white">Copyright <span id="copyright"> <script data-cfasync="false" src="{{ asset('zenith/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js') }}"></script><script data-cfasync="false" src="../../../zenith/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))</script></span> <a href="javascript:void(0)">{{$settings->site_name}}</a> All Rights Reserved </div>
                     </div>
                     <div class="col-sm-6">
                         <ul class="iq-media-blog ">
@@ -277,28 +327,57 @@
             </div>
         </footer>
 
+<div class="mgm" style="display: none;">
+    <div class="txt" style="color:black;"></div>
+
+    <script type="text/javascript">
+        var listCountries = ['South Africa', 'USA', 'Germany', 'France', 'Italy', 'South Africa', 'Australia', 'South Africa', 'Canada', 'Argentina', 'Saudi Arabia', 'Mexico', 'South Africa', 'South Africa', 'Venezuela', 'South Africa', 'Sweden', 'South Africa', 'South Africa', 'Italy', 'South Africa', 'United Kingdom', 'South Africa', 'Greece', 'Cuba', 'South Africa', 'Portugal', 'Austria', 'South Africa', 'Panama', 'South Africa', 'South Africa', 'Netherlands', 'Switzerland', 'Belgium', 'Israel', 'Cyprus'];
+        var listPlans = ['$500','$1,500','$1,000','$10,000','$2,000','$3,000','$4,000', '$600', '$700', '$2,500'];
+        var transarray = ['just <b>invested</b> with', 'just <b>withdrew</b>', 'just <b>earned</b>', 'is <b>trading with</b>'];
+        interval = Math.floor(Math.random() * (40000 - 8000 + 1) + 8000);
+        var run = setInterval(request, interval);
+    
+        function request() {
+            clearInterval(run);
+            interval = Math.floor(Math.random() * (40000 - 8000 + 1) + 8000);
+            var country = listCountries[Math.floor(Math.random() * listCountries.length)];
+            var transtype = transarray[Math.floor(Math.random() * transarray.length)];
+            // var plan = listPlans[Math.floor(Math.random() * listPlans.length)];
+            var plan = `$${(Math.ceil((Math.floor(Math.random() * 50000) + 500) * 100) / 100).toLocaleString()}`;
+            var msg = `Someone from <b> ${country} </b> ${transtype} <b style="color:blue;"> ${plan} </b>`;
+            $(".mgm .txt").html(msg);
+            $(".mgm").stop(true).fadeIn(1000);
+            window.setTimeout(function() {
+                $(".mgm").stop(true).fadeOut(2000);
+            }, 10000);
+            run = setInterval(request, interval);
+
+        }
+    </script>
+</div>
+
 
     <div id="back-to-top">
         <a class="top" id="top" href="#top"> <i class="ion-ios-upload-outline"></i> </a>
     </div>
     
-    <script src="{{ asset('home/js/jquery-min.js') }}"></script>
+    <script src="{{ asset('zenith/js/jquery-min.js') }}"></script>
         
-    <script src="{{ asset('home/js/popper.min.js') }}"></script>
+    <script src="{{ asset('zenith/js/popper.min.js') }}"></script>
     
-    <script src="{{ asset('home/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('zenith/js/bootstrap.min.js') }}"></script>
     
-    <script src="{{ asset('home/js/widget.js') }}"></script>
+    <script src="{{ asset('zenith/js/widget.js') }}"></script>
     
-    <script src="{{ asset('home/js/all-plugins.js') }}"></script>
+    <script src="{{ asset('zenith/js/all-plugins.js') }}"></script>
     
-    <script src="{{ asset('home/js/particles.js') }}"></script>
+    <script src="{{ asset('zenith/js/particles.js') }}"></script>
     
-    <script src="{{ asset('home/js/style-customizer.js') }}"></script>
+    <script src="{{ asset('zenith/js/style-customizer.js') }}"></script>
     
-    <script src="{{ asset('home/js/custom.js') }}"></script>
+    <script src="{{ asset('zenith/js/custom.js') }}"></script>
     
-    <!--<script src="{{ asset('home/js/tawkto.js') }}"></script>-->
+    <!--<script src="{{ asset('zenith/js/tawkto.js') }}"></script>-->
         
 </body>
 

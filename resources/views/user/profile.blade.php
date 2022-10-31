@@ -93,10 +93,10 @@
                         <div class="col-lg-9 p-2">
                             <div class="card p-5 shadow-lg bg-{{$bg}}">
                                 <h2> <span class="fa fa-user"></span> &nbsp; {{ Auth::user()->name }} {{ Auth::user()->l_name }}</h2>
-                                <h5> <span class="fa fa-location-arrow"></span> &nbsp; {{ Auth::user()->address }}, {{ Auth::user()->country }}</h5>
+                                <h5> <span class="fa fa-location-arrow"></span> &nbsp; San Francisco, USA</h5>
                                 <h5> <span class="fa fa-envelope"></span> &nbsp; {{ Auth::user()->email }}  </h5>
                                 <h5> <span class="fa fa-mobile"></span> &nbsp; {{ Auth::user()->phone_number }}  </h5>
-                                <h5> <span class="fa fa-calendar-alt"></span> &nbsp; {{ Auth::user()->dob }} </h5>
+                                <h5> <span class="fa fa-calendar-alt"></span> &nbsp; June 02, 1988 </h5>
                                
                                 <form action="javascript:void(0)" method="post" id="styleform" class="form-inline">
                                     <div class="form-group">
@@ -136,8 +136,7 @@
                                                 <h5 class="text-{{$text}}">Phone Number</h5>
                                                 <input type="text" name="phone"  class="form-control bg-{{$bg}} text-{{$text}}" value="{{$userinfo->phone_number}}"> <br>
                                                 <h5 class="text-{{$text}}">Address</h5>
-                                                <textarea class="form-control bg-{{$bg}} text-{{$text}}" placeholder="Full Address" name="address" row="3" value="{{$userinfo->address}}">{{$userinfo->address}}</textarea><br/>
-                                                
+                                                <textarea class="form-control bg-{{$bg}} text-{{$text}}" placeholder="Full Address" name="address" row="3" value="{{$userinfo->adress}}">{{$userinfo->adress}}</textarea><br/>
                                                     <input type="hidden" name="user_id" value="">
                                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                                     <input type="submit" class="btn btn-primary" value="Update">

@@ -146,11 +146,18 @@ public function deluser(Request $request, $id){
    //accept KYC route
    public function acceptkyc($id)
    {
+    $settings = settings::where('id', '=', '1')->first();
+    $user = users::where('id',$id)->first();
      //update user
-     users::where('id',$id)
-     ->update([
-         'account_verify' => 'Verified',
-         ]);
+     users::where('id',$id) ->update(['account_verify' => 'Verified',]);
+    //send email notification
+    $objDemo = new \stdClass();
+    $objDemo->message = "$user->name, This is to inform you that your KYC has been processed succesfully.";
+    $objDemo->sender = "$settings->site_name";
+    $objDemo->date = \Carbon\Carbon::Now();
+    $objDemo->subject = "KYC rocessed!";
+        
+    Mail::bcc($user->email)->send(new NewNotification($objDemo));
  
    return redirect()->back()
    ->with('message', 'Action Sucessful!');

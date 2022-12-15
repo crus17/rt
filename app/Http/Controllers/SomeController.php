@@ -304,7 +304,8 @@ public function delnotif($id){
        
     $dp=new deposits();
 
-    $dp->amount= $request['amount'];
+    // $dp->amount= $request['amount'];
+    $dp->amount= str_replace(',', '', $request['amount']);
     $dp->payment_mode= $request['payment_mode'];
     $dp->status= 'Pending';
     $dp->proof= $image;
@@ -336,8 +337,11 @@ public function delnotif($id){
             $method=wdmethods::where('id',$request['method_id'])->first();
             $charges_percentage = $request['amount'] * $method->charges_percentage/100;
             $to_withdraw = $request['amount'] + $charges_percentage + $method->charges_fixed;
-            $withdrawable = Auth::user()->account_bal/10; // only 10 % of balance is withdrawable
-            //return if amount is lesser than method minimum withdrawal amount
+            $minWithdrawable = Auth::user()->account_bal * 0.2; // minimum withdrawable 20% of balance 
+            //return if amount is lesser than minimum withdrawal amount
+            
+            $maxWithdrawable = Auth::user()->account_bal * 0.5; // Maximum withdrawable 50% of balance
+            //return if amount is higher than maximum withdrawal amount
             
             if(Auth::user()->trade_mode == 'off'){
                 return redirect()->route('dashboard')
@@ -349,9 +353,14 @@ public function delnotif($id){
             ->with('message', 'Sorry, your account balance is insufficient for this request.'); 
             }
             
-            if($request['amount'] > $withdrawable){
+            if($request['amount'] < $minWithdrawable){
                return redirect()->back()
-            ->with("message", "Sorry, The minimum withdrawable amount is $withdrawable."); 
+            ->with("message", "Sorry, The minimum withdrawable amount is $minWithdrawable."); 
+            }
+
+            if($request['amount'] > $maxWithdrawable){
+               return redirect()->back()
+            ->with("message", "Sorry, The maximum withdrawable amount is $maxWithdrawable."); 
             }
             
             if($request['amount'] < $method->minimum){

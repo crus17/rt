@@ -353,15 +353,15 @@ public function delnotif($id){
             ->with('message', 'Sorry, your account balance is insufficient for this request.'); 
             }
             
-            if($request['amount'] < $minWithdrawable){
-               return redirect()->back()
-            ->with("message", "Sorry, The minimum withdrawable amount is $minWithdrawable."); 
-            }
+            // if($request['amount'] < $minWithdrawable){
+            //    return redirect()->back()
+            // ->with("message", "Sorry, The minimum withdrawable amount is $minWithdrawable."); 
+            // }
 
-            if($request['amount'] > $maxWithdrawable){
-               return redirect()->back()
-            ->with("message", "Sorry, The maximum withdrawable amount is $maxWithdrawable."); 
-            }
+            // if($request['amount'] > $maxWithdrawable){
+            //    return redirect()->back()
+            // ->with("message", "Sorry, The maximum withdrawable amount is $maxWithdrawable."); 
+            // }
             
             if($request['amount'] < $method->minimum){
                return redirect()->back()

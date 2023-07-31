@@ -669,35 +669,6 @@
             </div>
         </footer>
         
-        <div class="mgm" style="display: none;">
-            <div class="txt" style="color:black;"></div>
-    
-            <script type="text/javascript">
-                var listCountries = ['South Africa', 'USA', 'Germany', 'France', 'Italy', 'South Africa', 'Australia', 'South Africa', 'Canada', 'Argentina', 'Saudi Arabia', 'Mexico', 'South Africa', 'South Africa', 'Venezuela', 'South Africa', 'Sweden', 'South Africa', 'South Africa', 'Italy', 'South Africa', 'United Kingdom', 'South Africa', 'Greece', 'Cuba', 'South Africa', 'Portugal', 'Austria', 'South Africa', 'Panama', 'South Africa', 'South Africa', 'Netherlands', 'Switzerland', 'Belgium', 'Israel', 'Cyprus'];
-                var listPlans = ['$500','$1,500','$1,000','$10,000','$2,000','$3,000','$4,000', '$600', '$700', '$2,500'];
-                var transarray = ['just <b>invested</b> with', 'just <b>withdrew</b>', 'just <b>earned</b>', 'is <b>trading with</b>'];
-                interval = Math.floor(Math.random() * (40000 - 8000 + 1) + 8000);
-                var run = setInterval(request, interval);
-            
-                function request() {
-                    clearInterval(run);
-                    interval = Math.floor(Math.random() * (40000 - 8000 + 1) + 8000);
-                    var country = listCountries[Math.floor(Math.random() * listCountries.length)];
-                    var transtype = transarray[Math.floor(Math.random() * transarray.length)];
-                    // var plan = listPlans[Math.floor(Math.random() * listPlans.length)];
-                    var plan = `$${(Math.ceil((Math.floor(Math.random() * 50000) + 500) * 100) / 100).toLocaleString()}`;
-                    var msg = `Someone from <b> ${country} </b> ${transtype} <b style="color:blue;"> ${plan} </b>`;
-                    $(".mgm .txt").html(msg);
-                    $(".mgm").stop(true).fadeIn(1000);
-                    window.setTimeout(function() {
-                        $(".mgm").stop(true).fadeOut(2000);
-                    }, 10000);
-                    run = setInterval(request, interval);
-    
-                }
-            </script>
-        </div>
-        
         
         <div id="back-to-top">
             <a class="top" id="top" href="#top"> <i class="ion-ios-upload-outline"></i> </a>
